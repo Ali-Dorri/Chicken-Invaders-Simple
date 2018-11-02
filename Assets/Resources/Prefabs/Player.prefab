@@ -259,7 +259,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health: 15
-  bulletSpeed: 0
+  bulletSpeed: 7
 --- !u!114 &114297843751261382
 MonoBehaviour:
   m_ObjectHideFlags: 1
