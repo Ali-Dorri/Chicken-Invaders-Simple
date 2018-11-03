@@ -52,7 +52,7 @@ public class BackgroundMusicPlayer : MonoBehaviour
     //Initializers
     //
 
-    private void Start()
+    private void Awake()
     {
         if (!isInitialized)
         {
