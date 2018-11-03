@@ -99,6 +99,26 @@ public class LevelManager : MonoBehaviour
         Application.Quit();
     }
 
+    public static bool IsCurrentScene(int buildIndex)
+    {
+        return buildIndex == SceneManager.GetActiveScene().buildIndex;
+    }
+
+    public static bool IsCurrentScene(string name)
+    {
+        return name == SceneManager.GetActiveScene().name;
+    }
+
+    public static int GetActiveSceneIndex()
+    {
+        return SceneManager.GetActiveScene().buildIndex;
+    }
+
+    public static string GetActiveSceneName()
+    {
+        return SceneManager.GetActiveScene().name;
+    }
+
     private void OnDestroy()
     {
         if(this == singleton)

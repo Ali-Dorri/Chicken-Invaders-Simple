@@ -52,11 +52,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7ce8dc0ba4d511f468a6f33974495169, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  armyColumns: 8
-  armyRows: 4
+  armyColumns: 3
+  armyRows: 2
   xGap: 0.5
   yGap: 0.5
-  chickenSize: {x: 0, y: 0}
   speed: 2
   chickenPrefab: {fileID: 1590910865624290, guid: a6b2085b9b9eb2e4f8acf098e480c274,
     type: 2}

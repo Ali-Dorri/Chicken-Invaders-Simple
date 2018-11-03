@@ -63,6 +63,7 @@ public class PlayerShip : AliveEntity, IFriend
             if(health == 0)
             {
                 WinLoseExecuter.Singleton.Lose();
+                BackgroundMusicPlayer.Singleton.PlayLoseTrack();
             }
         }
     }

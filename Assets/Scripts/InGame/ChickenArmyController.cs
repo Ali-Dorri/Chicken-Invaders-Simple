@@ -121,6 +121,7 @@ public class ChickenArmyController : MonoBehaviour, IPausable
             {
                 wholeChickenNumber = 0;
                 WinLoseExecuter.Singleton.Win();
+                BackgroundMusicPlayer.Singleton.PlayWinTrack();
             }
             else
             {
