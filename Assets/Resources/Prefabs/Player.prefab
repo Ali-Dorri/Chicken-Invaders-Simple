@@ -357,6 +357,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   health: 15
   bulletSpeed: 7
+  explosion: {fileID: 1228273866755452, guid: 2930a2077374f8543b3e7a50f64afacc, type: 2}
 --- !u!114 &114275693908926676
 MonoBehaviour:
   m_ObjectHideFlags: 1

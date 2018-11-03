@@ -10,6 +10,7 @@ public class PlayerShip : AliveEntity, IFriend
 
     ControlsManager controlsManager;
     EntityMovePhysics physics;
+    [SerializeField] GameObject explosion;
 
     /////////////////////////////////////////////////////////////////////////////
 
@@ -40,6 +41,8 @@ public class PlayerShip : AliveEntity, IFriend
             {
                 WinLoseExecuter.Singleton.Lose();
                 BackgroundMusicPlayer.Singleton.PlayLoseTrack();
+                //create explosion
+                Instantiate(explosion, transform.position, Quaternion.identity);
             }
         }
     }
