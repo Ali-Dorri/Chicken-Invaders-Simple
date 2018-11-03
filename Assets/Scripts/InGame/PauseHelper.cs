@@ -83,7 +83,28 @@ public class PauseHelper : MonoBehaviour, IDoubleAccessQueue<PauseHelper>
 
     void Start ()
     {
-        pausables = GetComponents<IPausable>();
+        List<IPausable> pausablesList = new List<IPausable>();
+
+        //add IPausables in gameObject to pausablesList
+        pausablesList.AddRange(GetComponents<IPausable>());
+
+        //add pausableAnimators to pausablesList if there is any animator in gameObject
+        Animator[] animators = GetComponentsInChildren<Animator>();
+        if(animators != null)
+        {
+            int length = animators.Length;
+            PausableAnimator[] pausableAnimators = new PausableAnimator[length];
+            for (int i = 0; i < length; i++)
+            {
+                pausableAnimators[i] = new PausableAnimator(animators[i]);
+            }
+
+            pausablesList.AddRange(pausableAnimators);
+        }
+
+        //assign IPausables to pausables
+        pausables = pausablesList.ToArray();
+        
         Initialize();
 	}
 

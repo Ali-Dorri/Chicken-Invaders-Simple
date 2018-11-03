@@ -15,7 +15,6 @@ public class EnemyShip : AliveEntity, IEnemy
     int rowIndex;
     [SerializeField] float speed = 4;
     bool isSetInPosition = false;
-    Animator animator;
 
     //static
     static System.Random random = new System.Random();
@@ -105,7 +104,6 @@ public class EnemyShip : AliveEntity, IEnemy
         {
             speed = DEFAULT_SPEED;
         }
-        animator = transform.GetChild(0).GetComponent<Animator>();
 
         //get to position
         StartCoroutine(GetToPosition());
@@ -185,17 +183,6 @@ public class EnemyShip : AliveEntity, IEnemy
     public override void PauseOrResume(bool isPaused)
     {
         base.PauseOrResume(isPaused);
-
-        if (isPaused)
-        {
-            //stop animation
-            animator.StartPlayback();
-        }
-        else
-        {
-            //resume animation
-            animator.StopPlayback();
-        }
 
         if (!isSetInPosition)
         {
