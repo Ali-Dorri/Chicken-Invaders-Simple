@@ -52,8 +52,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7ce8dc0ba4d511f468a6f33974495169, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  armyColumns: 3
-  armyRows: 2
+  armyColumns: 7
+  armyRows: 3
   xGap: 0.5
   yGap: 0.5
   speed: 2

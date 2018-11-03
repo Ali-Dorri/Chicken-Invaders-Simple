@@ -213,7 +213,7 @@ public class ChickenArmyController : MonoBehaviour, IPausable
         for (; spawnerChickenCounter < chickensNumberToBeCreated; spawnerChickenCounter++)
         {
             GameObject chicken = Instantiate<GameObject>(chickenPrefab, new Vector3(8, 8, 0), Quaternion.identity);
-            EnemyShip enemy = chicken.GetComponent<EnemyShip>();
+            Chicken enemy = chicken.GetComponent<Chicken>();
             enemy.ColumnIndex = spawnerChickenCounter / armyRows;
             enemy.RowIndex = spawnerChickenCounter % armyRows;
 
@@ -279,7 +279,7 @@ public class ChickenArmyController : MonoBehaviour, IPausable
         return transform.position + new Vector3(xDelta, yDelta, 0);
     }
 
-    public bool AddChicken(EnemyShip enemy, int columnIndex, int rowIndex)
+    public bool AddChicken(Chicken enemy, int columnIndex, int rowIndex)
     {
         if(chickenArmy[columnIndex,rowIndex] == null)
         {

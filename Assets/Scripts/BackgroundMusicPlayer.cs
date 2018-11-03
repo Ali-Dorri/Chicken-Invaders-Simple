@@ -136,12 +136,12 @@ public class BackgroundMusicPlayer : MonoBehaviour
 
     void ChangeClip(AudioClip clip, bool loop)
     {
-        if(audioSource.clip != clip)
+        if (audioSource.clip != clip)
         {
             audioSource.Stop();
             audioSource.clip = clip;
             audioSource.Play();
             audioSource.loop = loop;
-        } 
+        }
     }
 }

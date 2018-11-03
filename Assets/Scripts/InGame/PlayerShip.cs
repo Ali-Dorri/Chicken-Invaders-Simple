@@ -25,6 +25,25 @@ public class PlayerShip : AliveEntity, IFriend
         }
     }
 
+    protected override float Health
+    {
+        get
+        {
+            return base.Health;
+        }
+
+        set
+        {
+            base.Health = value;
+
+            if (health == 0)
+            {
+                WinLoseExecuter.Singleton.Lose();
+                BackgroundMusicPlayer.Singleton.PlayLoseTrack();
+            }
+        }
+    }
+
     /////////////////////////////////////////////////////////////////////////////
 
     //
@@ -47,25 +66,6 @@ public class PlayerShip : AliveEntity, IFriend
         {
             bulletSpeed = DEFAULT_PLAYER_BULLET_SPEED;
         }       
-    }
-
-    protected override float Health
-    {
-        get
-        {
-            return base.Health;
-        }
-
-        set
-        {
-            base.Health = value;
-
-            if(health == 0)
-            {
-                WinLoseExecuter.Singleton.Lose();
-                BackgroundMusicPlayer.Singleton.PlayLoseTrack();
-            }
-        }
     }
 
     /////////////////////////////////////////////////////////////////////////////

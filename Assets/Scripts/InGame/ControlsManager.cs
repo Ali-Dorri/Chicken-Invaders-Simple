@@ -7,6 +7,7 @@ public class ControlsManager : MonoBehaviour, IPausable
     //
     //Fields
     //
+
     bool isLeftPressed = false;
     bool isRightPressed = false;
     [SerializeField] KeyCode leftKey = KeyCode.LeftArrow;

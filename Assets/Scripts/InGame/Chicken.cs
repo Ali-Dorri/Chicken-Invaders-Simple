@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyShip : AliveEntity, IEnemy
+public class Chicken : AliveEntity, IEnemy
 {
     //
     //Fields
@@ -61,11 +61,21 @@ public class EnemyShip : AliveEntity, IEnemy
 
         set
         {
+            float previousHealth = health;
             base.Health = value;
-            if(health <= 0)
+
+            if (previousHealth > health)
             {
-                ChickenArmyController.Singleton.RemoveChicken(columnIndex, rowIndex);
-                ChickenArmyController.WholeChickenNumber--;
+                if (health == 0)
+                {
+                    ChickenArmyController.Singleton.RemoveChicken(columnIndex, rowIndex);
+                    ChickenArmyController.WholeChickenNumber--;
+
+                }
+                else
+                {
+                    
+                }
             }
         }
     }
