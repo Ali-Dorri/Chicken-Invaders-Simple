@@ -49,6 +49,24 @@ public class PlayerShip : AliveEntity, IFriend
         }       
     }
 
+    protected override float Health
+    {
+        get
+        {
+            return base.Health;
+        }
+
+        set
+        {
+            base.Health = value;
+
+            if(health == 0)
+            {
+                WinLoseExecuter.Singleton.Lose();
+            }
+        }
+    }
+
     /////////////////////////////////////////////////////////////////////////////
 
     //

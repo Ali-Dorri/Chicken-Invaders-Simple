@@ -36,6 +36,7 @@ public class ChickenArmyController : MonoBehaviour, IPausable
 
     //static
     static ChickenArmyController singleton = null;
+    static int wholeChickenNumber = 0;
     const int DEFAULT_COLUMNS_NUMER = 10;
     const int DEFAULT_ROWS_NUMBER = 5;
     const float DEFAULT_COLUMN_GAP = 1;
@@ -105,6 +106,26 @@ public class ChickenArmyController : MonoBehaviour, IPausable
             }
 
             return singleton;
+        }
+    }
+
+    public static int WholeChickenNumber
+    {
+        get
+        {
+            return wholeChickenNumber;
+        }
+        set
+        {
+            if(value <= 0)
+            {
+                wholeChickenNumber = 0;
+                WinLoseExecuter.Singleton.Win();
+            }
+            else
+            {
+                wholeChickenNumber = value;
+            }
         }
     }
 
@@ -185,9 +206,10 @@ public class ChickenArmyController : MonoBehaviour, IPausable
 
     IEnumerator SpawnChickens()
     {
-        int chickensNumber = armyColumns * armyRows;
+        int chickensNumberToBeCreated = armyColumns * armyRows;
+        wholeChickenNumber = chickensNumberToBeCreated;
 
-        for (; spawnerChickenCounter < chickensNumber; spawnerChickenCounter++)
+        for (; spawnerChickenCounter < chickensNumberToBeCreated; spawnerChickenCounter++)
         {
             GameObject chicken = Instantiate<GameObject>(chickenPrefab, new Vector3(8, 8, 0), Quaternion.identity);
             EnemyShip enemy = chicken.GetComponent<EnemyShip>();
@@ -197,7 +219,7 @@ public class ChickenArmyController : MonoBehaviour, IPausable
             yield return new WaitForSeconds(spawnGapTime);
         }
         
-        if(spawnerChickenCounter >= chickensNumber)
+        if(spawnerChickenCounter >= chickensNumberToBeCreated)
         {
             isSpawningDone = true;
         }
@@ -348,6 +370,7 @@ public class ChickenArmyController : MonoBehaviour, IPausable
             if(this == singleton)
             {
                 singleton = null;
+                wholeChickenNumber = 0;
             }
         }
     }

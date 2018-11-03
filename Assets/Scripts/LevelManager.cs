@@ -84,6 +84,16 @@ public class LevelManager : MonoBehaviour
         SceneManager.LoadScene("Game");
     }
 
+    public void LoadWinScene()
+    {
+        SceneManager.LoadScene("Win Scene");
+    }
+
+    public void LoadLoseScene()
+    {
+        SceneManager.LoadScene("Lose Scene");
+    }
+
     public void Quit()
     {
         Application.Quit();

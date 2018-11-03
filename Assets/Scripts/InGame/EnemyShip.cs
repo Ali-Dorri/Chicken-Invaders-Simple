@@ -66,6 +66,7 @@ public class EnemyShip : AliveEntity, IEnemy
             if(health <= 0)
             {
                 ChickenArmyController.Singleton.RemoveChicken(columnIndex, rowIndex);
+                ChickenArmyController.WholeChickenNumber--;
             }
         }
     }
