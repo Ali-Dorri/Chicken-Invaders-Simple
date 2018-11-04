@@ -12,6 +12,9 @@ public class PlayerShip : AliveEntity, IFriend
     EntityMovePhysics physics;
     [SerializeField] GameObject explosion;
 
+    //statics
+    const float KILEED_SOUND_VOLUME = 0.1f;
+
     /////////////////////////////////////////////////////////////////////////////
 
     //
@@ -117,5 +120,10 @@ public class PlayerShip : AliveEntity, IFriend
         }
 
         return false;
+    }
+
+    protected override void SetKillSound(EntitySoundHandler soundhandler)
+    {
+        soundhandler.PlayKilled(KILEED_SOUND_VOLUME);
     }
 }

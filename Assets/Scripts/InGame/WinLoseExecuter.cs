@@ -119,9 +119,10 @@ public class WinLoseExecuter : MonoBehaviour
 
     Text CreateText(GameObject prefab)
     {
-        prefab = Instantiate(prefab, Vector3.zero, Quaternion.identity);
-        prefab.transform.SetParent(FindObjectOfType<Canvas>().transform);
-        prefab.transform.localPosition = Vector3.zero;
+        Transform canvasTransform = FindObjectOfType<Canvas>().transform;
+        prefab = Instantiate(prefab, Vector3.zero, Quaternion.identity, canvasTransform);
+        prefab.transform.localPosition = Vector3.zero; ;
+        canvasTransform.Find("Pause Panel").SetSiblingIndex(transform.GetSiblingIndex() - 1);      
 
         return prefab.GetComponent<Text>();
     }

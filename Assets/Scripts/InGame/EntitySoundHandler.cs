@@ -49,7 +49,12 @@ public class EntitySoundHandler : MonoBehaviour
 
     public void PlayKilled()
     {
-        AudioSource.PlayClipAtPoint(killedSound, Vector3.zero);
+        TemporarySound.CreateSound(killedSound);
+    }
+
+    public void PlayKilled(float volume)
+    {
+        TemporarySound.CreateSound(killedSound, volume);
     }
 
     void PlayClip(AudioClip clip)

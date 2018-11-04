@@ -126,4 +126,6 @@ public abstract class AliveEntity : MonoBehaviour, IPausable
     {
         enabled = !isPaused;
     }
+
+    protected abstract void SetKillSound(EntitySoundHandler soundhandler);
 }

@@ -21,6 +21,7 @@ public class Chicken : AliveEntity, IEnemy
     const float MAX_SHOOT_TIME_GAP = 8;
     const float MIN_SHOOT_TIME_GAP = 6;
     const float DEFAULT_SPEED = 4;
+    const float KILEED_SOUND_VOLUME = 1;
 
     /////////////////////////////////////////////////////////////////////////////
 
@@ -205,5 +206,10 @@ public class Chicken : AliveEntity, IEnemy
                 StartCoroutine(GetToPosition());
             }   
         }
+    }
+
+    protected override void SetKillSound(EntitySoundHandler soundhandler)
+    {
+        soundhandler.PlayKilled(KILEED_SOUND_VOLUME);
     }
 }
