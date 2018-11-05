@@ -29,16 +29,19 @@ public class PlayerShip : AliveEntity, IFriend
         }
     }
 
-    protected override float Health
+    public override float Health
     {
         get
         {
             return base.Health;
         }
 
-        set
+        protected set
         {
             base.Health = value;
+
+            //show health on UI
+            InformationIndicator.Singleton.SetHealth(value);
 
             if (health == 0)
             {

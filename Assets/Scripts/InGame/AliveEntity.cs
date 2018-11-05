@@ -25,13 +25,13 @@ public abstract class AliveEntity : MonoBehaviour, IPausable
     //Properties
     //
 
-    protected virtual float Health
+    public virtual float Health
     {
         get
         {
             return health;
         }
-        set
+        protected set
         {
             //if entity will die
             if (value <= 0)

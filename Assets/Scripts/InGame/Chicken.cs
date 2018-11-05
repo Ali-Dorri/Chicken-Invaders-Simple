@@ -53,14 +53,14 @@ public class Chicken : AliveEntity, IEnemy
         }
     }
 
-    protected override float Health
+    public override float Health
     {
         get
         {
             return base.Health;
         }
 
-        set
+        protected set
         {
             float previousHealth = health;
             base.Health = value;
@@ -71,11 +71,8 @@ public class Chicken : AliveEntity, IEnemy
                 {
                     ChickenArmyController.Singleton.RemoveChicken(columnIndex, rowIndex);
                     ChickenArmyController.WholeChickenNumber--;
-
-                }
-                else
-                {
-                    
+                    //show kills on UI
+                    InformationIndicator.Singleton.AddKillsNumber();
                 }
             }
         }
@@ -146,7 +143,7 @@ public class Chicken : AliveEntity, IEnemy
 
     float GetRandomTime()
     {
-        int rnd = random.Next(0, 10);
+        int rnd = random.Next(10, 20);
         return MIN_SHOOT_TIME_GAP + (rnd * (MAX_SHOOT_TIME_GAP - MIN_SHOOT_TIME_GAP) / 10);
     }
 

@@ -116,7 +116,7 @@ public class ChickenArmyController : MonoBehaviour, IPausable
             return wholeChickenNumber;
         }
         set
-        {
+        {           
             if(value <= 0)
             {
                 wholeChickenNumber = 0;
