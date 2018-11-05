@@ -12,11 +12,20 @@ public class PauseMenu : MonoBehaviour
     [SerializeField] Vector2 pausedPosition = new Vector2(0, 0);
     [SerializeField] float speed = 20;
     GamePauser gamePauser;
+
+    public void PauseOrResume()
+    {
+        gamePauser.PauseOrResume();
+    }
     
     public void Pause()
     {
         gamePauser.Pause();
-        MovePanelPause();
+    }
+
+    public void Resume()
+    {
+        gamePauser.Resume();
     }
 
     public void MovePanelPause()
@@ -24,13 +33,7 @@ public class PauseMenu : MonoBehaviour
         StopAllCoroutines();
         panel.gameObject.SetActive(true);
         StartCoroutine(MovePanel(pausedPosition, null));
-    }
-
-    public void Resume()
-    {
-        gamePauser.Resume();
-        MovePanelResume();
-    }
+    }  
 
     public void MovePanelResume()
     {

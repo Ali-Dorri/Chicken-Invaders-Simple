@@ -8,8 +8,8 @@ public class ChickenArmyAIController : ChickenArmyController
     //Fields
     //
 
-    Transform playerTransform;
-    int lastColumnShootedIndex = -1;
+    //Transform playerTransform;
+    //int lastColumnShootedIndex = -1;
     List<DataWithIndex<List<DataWithIndex<Chicken>>>> aliveChickens;
 
     //single chicken shooting variables
@@ -41,9 +41,8 @@ public class ChickenArmyAIController : ChickenArmyController
     {
         base.InitializeInStart();
 
-        playerTransform = FindObjectOfType<PlayerShip>().transform;
+        //playerTransform = FindObjectOfType<PlayerShip>().transform;
         aliveChickens = new List<DataWithIndex<List<DataWithIndex<Chicken>>>>(ArmyColumnsNumber);
-
 
         //single chicken shooting initialization
         shootTimeGap = GetRandomTime();
@@ -58,7 +57,7 @@ public class ChickenArmyAIController : ChickenArmyController
     protected override void UpdateArmy()
     {
         base.UpdateArmy();
-        ColumnShootProcess();
+        //ColumnShootProcess();
         RandomShootForSingleChickens();
     }
 

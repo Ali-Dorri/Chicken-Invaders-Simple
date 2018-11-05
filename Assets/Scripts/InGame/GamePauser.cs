@@ -68,16 +68,7 @@ public class GamePauser : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            isPaused = !isPaused;
             PauseOrResume();
-            if (isPaused)
-            {
-                pauseMenu.MovePanelPause();
-            }
-            else
-            {
-                pauseMenu.MovePanelResume();
-            }
         }
 	}
 
@@ -143,21 +134,38 @@ public class GamePauser : MonoBehaviour
         }
     }
 
+    public void PauseOrResume()
+    {        
+        isPaused = !isPaused;
+        ActivatePauseOrResume();
+    }
+
     public void Pause()
     {
         isPaused = true;
-        PauseOrResume();
+        ActivatePauseOrResume();
     }
 
     public void Resume()
     {
         isPaused = false;
-        PauseOrResume();
+        ActivatePauseOrResume();
     }
 
-    public void PauseOrResume()
+    void ActivatePauseOrResume()
     {
-        if(firstPauseHelper != null)
+        //pause menu
+        if (isPaused)
+        {
+            pauseMenu.MovePanelPause();
+        }
+        else
+        {
+            pauseMenu.MovePanelResume();
+        }
+
+        //pause the pausables
+        if (firstPauseHelper != null)
         {
             PauseHelper pauseHelper = firstPauseHelper;
 
