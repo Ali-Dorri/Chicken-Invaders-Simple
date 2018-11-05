@@ -108,7 +108,7 @@ public abstract class AliveEntity : MonoBehaviour, IPausable
 
     protected abstract void Move();
 
-    protected void Shoot()
+    public void Shoot()
     {
         GameObject bulletGameObject = Instantiate<GameObject>(BulletPrefab, transform.position + shootDeltaPosition,
                                                              Quaternion.identity);

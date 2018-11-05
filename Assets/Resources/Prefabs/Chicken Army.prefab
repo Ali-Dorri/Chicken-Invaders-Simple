@@ -19,7 +19,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4390552412218360}
-  - component: {fileID: 114414035018321678}
+  - component: {fileID: 114837778369519784}
   - component: {fileID: 114645492501224652}
   m_Layer: 0
   m_Name: Chicken Army
@@ -41,25 +41,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &114414035018321678
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1316289513203002}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7ce8dc0ba4d511f468a6f33974495169, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  armyColumns: 7
-  armyRows: 3
-  xGap: 0.5
-  yGap: 0.5
-  speed: 2
-  chickenPrefab: {fileID: 1590910865624290, guid: a6b2085b9b9eb2e4f8acf098e480c274,
-    type: 2}
-  spawnGapTime: 1
 --- !u!114 &114645492501224652
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -71,3 +52,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65a93467d51530c40a0d1e5782768d48, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &114837778369519784
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1316289513203002}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 911f200101da73c44b4a468c8a464ed7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  armyColumns: 7
+  armyRows: 3
+  xGap: 0.5
+  yGap: 0.5
+  speed: 2
+  chickenPrefab: {fileID: 1590910865624290, guid: a6b2085b9b9eb2e4f8acf098e480c274,
+    type: 2}
+  spawnGapTime: 1

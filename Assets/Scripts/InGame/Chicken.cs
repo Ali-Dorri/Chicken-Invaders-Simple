@@ -4,24 +4,27 @@ using UnityEngine;
 
 public class Chicken : AliveEntity, IEnemy
 {
+    //For Later : remove random functions (ChickenArmyAIController will control it)
+
+
     //
     //Fields
     //
 
     new Transform transform;
-    float shootTimeGap = 0;
-    float shootTimeCounter = 0;
+    //float shootTimeGap = 0;
+    //float shootTimeCounter = 0;
     int columnIndex;
     int rowIndex;
     [SerializeField] float speed = 4;
     bool isSetInPosition = false;
 
     //static
-    static System.Random random = new System.Random();
-    const float MAX_SHOOT_TIME_GAP = 8;
-    const float MIN_SHOOT_TIME_GAP = 6;
+    //static System.Random random = new System.Random();
+    //const float MAX_SHOOT_TIME_GAP = 8;
+    //const float MIN_SHOOT_TIME_GAP = 6;
     const float DEFAULT_SPEED = 4;
-    const float KILEED_SOUND_VOLUME = 1;
+    const float KILLED_SOUND_VOLUME = 1;
 
     /////////////////////////////////////////////////////////////////////////////
 
@@ -107,7 +110,7 @@ public class Chicken : AliveEntity, IEnemy
         {
             bulletSpeed = DEFAULT_ENEMY_BULLET_SPEED;
         }
-        shootTimeGap = GetRandomTime();
+        //shootTimeGap = GetRandomTime();
         if(speed <= 0)
         {
             speed = DEFAULT_SPEED;
@@ -126,26 +129,26 @@ public class Chicken : AliveEntity, IEnemy
     void Update ()
     {
         Move();
-        ShootRandomly();
+        //ShootRandomly();
     }
 
-    public virtual void ShootRandomly()
-    {
-        shootTimeCounter += Time.deltaTime;
+    //public virtual void ShootRandomly()
+    //{
+    //    shootTimeCounter += Time.deltaTime;
 
-        if (shootTimeCounter >= shootTimeGap)
-        {
-            Shoot();
-            shootTimeCounter = 0;
-            shootTimeGap = GetRandomTime();
-        }
-    }
+    //    if (shootTimeCounter >= shootTimeGap)
+    //    {
+    //        Shoot();
+    //        shootTimeCounter = 0;
+    //        shootTimeGap = GetRandomTime();
+    //    }
+    //}
 
-    float GetRandomTime()
-    {
-        int rnd = random.Next(10, 20);
-        return MIN_SHOOT_TIME_GAP + (rnd * (MAX_SHOOT_TIME_GAP - MIN_SHOOT_TIME_GAP) / 10);
-    }
+    //float GetRandomTime()
+    //{
+    //    int rnd = random.Next(0, 10);
+    //    return MIN_SHOOT_TIME_GAP + (rnd * (MAX_SHOOT_TIME_GAP - MIN_SHOOT_TIME_GAP) / 10);
+    //}
 
     protected override void Move()
     {
@@ -207,6 +210,6 @@ public class Chicken : AliveEntity, IEnemy
 
     protected override void SetKillSound(EntitySoundHandler soundhandler)
     {
-        soundhandler.PlayKilled(KILEED_SOUND_VOLUME);
+        soundhandler.PlayKilled(KILLED_SOUND_VOLUME);
     }
 }

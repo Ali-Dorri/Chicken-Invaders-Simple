@@ -72,21 +72,45 @@ public class ChickenArmyController : MonoBehaviour, IPausable
         }
     }
 
-    int FirstColumnIndex
+    public int FirstColumnIndex
     {
-        set
+        get
+        {
+            return firstColumnIndex;
+        }
+        private set
         {
             firstColumnIndex = value;
             SetMoveXLimits();
         }
     }
 
-    int LastColumnIndex
+    public int LastColumnIndex
     {
-        set
+        get
+        {
+            return lastColumnIndex;
+        }
+        private set
         {
             lastColumnIndex = value;
             SetMoveXLimits();
+        }
+    }
+
+    protected int ArmyColumnsNumber
+    {
+        get
+        {
+            return armyColumns;
+        }
+    }
+
+    protected int ArmyRowsNumber
+    {
+        get
+        {
+            return armyRows;
         }
     }
 
@@ -130,6 +154,14 @@ public class ChickenArmyController : MonoBehaviour, IPausable
         }
     }
 
+    protected Transform[,] ChickenArmy
+    {
+        get
+        {
+            return chickenArmy;
+        }
+    }
+
     /////////////////////////////////////////////////////////////////////////////
 
     //
@@ -169,20 +201,25 @@ public class ChickenArmyController : MonoBehaviour, IPausable
 
     private void Start()
     {
+        InitializeInStart();
+    }
+
+    protected virtual void InitializeInStart()
+    {
         // if is not singleton destroy it
-        if(singleton == null)
+        if (singleton == null)
         {
             singleton = this;
         }
         else
         {
-            if(this != singleton)
+            if (this != singleton)
             {
                 Destroy(gameObject);
             }
         }
 
-        if(speed <= 0)
+        if (speed <= 0)
         {
             speed = DEFAULT_SPEED;
         }
@@ -234,12 +271,17 @@ public class ChickenArmyController : MonoBehaviour, IPausable
 
     private void Update()
     {
+        UpdateArmy();
+    }
+    
+    protected virtual void UpdateArmy()
+    {
         if (isGoingRight)
         {
             transform.Translate(new Vector3(speed * Time.deltaTime, 0, 0));
-            
+
             //if it reaches the rigth limit
-            if(transform.position.x >= rightMoveXLimit)
+            if (transform.position.x >= rightMoveXLimit)
             {
                 isGoingRight = false;
             }
@@ -247,7 +289,7 @@ public class ChickenArmyController : MonoBehaviour, IPausable
         else
         {
             transform.Translate(new Vector3(-speed * Time.deltaTime, 0, 0));
-            
+
             //if it reaches the left limit
             if (transform.position.x <= leftMoveXLimit)
             {
@@ -279,7 +321,7 @@ public class ChickenArmyController : MonoBehaviour, IPausable
         return transform.position + new Vector3(xDelta, yDelta, 0);
     }
 
-    public bool AddChicken(Chicken enemy, int columnIndex, int rowIndex)
+    public virtual bool AddChicken(Chicken enemy, int columnIndex, int rowIndex)
     {
         if(chickenArmy[columnIndex,rowIndex] == null)
         {
@@ -304,7 +346,7 @@ public class ChickenArmyController : MonoBehaviour, IPausable
         return false;
     }
 
-    public void RemoveChicken(int columnIndex, int rowIndex)
+    public virtual void RemoveChicken(int columnIndex, int rowIndex)
     {
         //release the enemy
         if(chickenArmy[columnIndex,rowIndex] != null)
@@ -324,7 +366,7 @@ public class ChickenArmyController : MonoBehaviour, IPausable
                 }
             }
 
-            //change the lastColumn or firsColumn if needed
+            //change the lastColumn or firstColumn if needed
             if (isColumnEmpty)
             {
                 ChangeLastOrFirstColumn(columnIndex);
@@ -376,13 +418,6 @@ public class ChickenArmyController : MonoBehaviour, IPausable
         }
     }
 
-    //private void OnDrawGizmos()
-    //{
-    //    Gizmos.DrawWireSphere(transform.position, 0.5f);
-    //    Gizmos.DrawWireSphere(transform.position + new Vector3((armyColumns - 1) / 2f, 0, 0), chickenSize.x);
-    //    Gizmos.DrawWireSphere(transform.position - new Vector3((armyColumns - 1) / 2f, 0, 0), chickenSize.x);
-    //}
-
     public void PauseOrResume(bool isPaused)
     {
         enabled = !isPaused;
@@ -400,5 +435,10 @@ public class ChickenArmyController : MonoBehaviour, IPausable
             }
         }
         
+    }
+
+    protected bool IsColumnExist(int column)
+    {
+        return isColumnsExist[column - 1];
     }
 }

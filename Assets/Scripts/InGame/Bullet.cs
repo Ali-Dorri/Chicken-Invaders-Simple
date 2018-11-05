@@ -6,7 +6,7 @@ using System;
 public class Bullet : MonoBehaviour, IPausable
 {
     //
-    //Concept Deifnition
+    //Concept Definition
     //
 
     public enum Group { Friend, Enemy }
