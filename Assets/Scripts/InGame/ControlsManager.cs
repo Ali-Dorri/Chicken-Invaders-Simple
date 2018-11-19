@@ -14,10 +14,58 @@ public class ControlsManager : MonoBehaviour, IPausable
     [SerializeField] KeyCode rightKey = KeyCode.RightArrow;
     [SerializeField] KeyCode shootKey = KeyCode.Space;
     [SerializeField] KeyCode missileKey = KeyCode.LeftControl;
-    [SerializeField] float shootGapTime = 0.2f;
+    [SerializeField] float shootGapTime = 0.2f;   
     int direction;
     bool isShooting = false;
     bool canShoot = true;
+
+    //kinect variables
+    [SerializeField] bool isUsingKinect = false;
+    KinectPositionFinder kinectPositionFinder;
+
+    /////////////////////////////////////////////////////////////////////////////
+
+    //
+    //Properties
+    //
+
+    public bool IsKinectEnabled
+    {
+        get
+        {
+            return isUsingKinect;
+        }
+        set
+        {
+            if(value != isUsingKinect)
+            {
+                isUsingKinect = value;
+                isShooting = false;
+                canShoot = true;
+
+                if (isUsingKinect)
+                {
+                    //disable keyboard determine direction effects
+                    isLeftPressed = false;
+                    isRightPressed = false;
+
+                    //disable playership moving
+                    FindObjectOfType<PlayerShip>().GetComponent<Rigidbody2D>().velocity = new Vector2(0, 0);
+                }
+            }
+        }
+    }
+
+    /////////////////////////////////////////////////////////////////////////////
+
+    //
+    //Initializers
+    //
+
+    private void Start()
+    {
+        kinectPositionFinder = FindObjectOfType<KinectPositionFinder>();
+    }
 
     /////////////////////////////////////////////////////////////////////////////
 
@@ -25,7 +73,7 @@ public class ControlsManager : MonoBehaviour, IPausable
     //Methods
     //
 
-    public int DetermineDirection()
+    public int DetermineDirectionByKeyboard()
     {
         if (Input.GetKey(leftKey))
         {
@@ -80,15 +128,43 @@ public class ControlsManager : MonoBehaviour, IPausable
         return direction;
     }
 
+    public float DetermineXPositionByKinect()
+    {
+        return kinectPositionFinder.RightHandPos.x;
+    }
+
     public void CheckShoot(UnityAction shoot)
     {
-        if (Input.GetKey(shootKey))
+        //if Keyboard enabled
+        if (!isUsingKinect)
         {
-            if (canShoot)
+            if (Input.GetKey(shootKey))
             {
-                StartCoroutine(ShootRepeatedly(shoot));
+                if (canShoot)
+                {
+                    StartCoroutine(ShootRepeatedly(shoot));
+                }
+            }
+            else if (Input.GetKeyUp(shootKey))
+            {
+                isShooting = false;
             }
         }
+        //if Kinect enabled
+        else
+        {
+            if(kinectPositionFinder.LeftHandPos.y >= kinectPositionFinder.HeadPos.y)
+            {
+                if (canShoot)
+                {
+                    StartCoroutine(ShootRepeatedly(shoot));
+                }
+            }
+            else
+            {
+                isShooting = false;
+            }
+        }    
     }
 
     IEnumerator ShootRepeatedly(UnityAction shoot)
@@ -103,14 +179,6 @@ public class ControlsManager : MonoBehaviour, IPausable
         }
 
         canShoot = true;
-    }
-
-    public void CheckStopShooting()
-    {
-        if (Input.GetKeyUp(shootKey))
-        {
-            isShooting = false;
-        }
     }
 
     public bool IsShotMissile()

@@ -87,7 +87,6 @@ public class PlayerShip : AliveEntity, IFriend
     {
         Move();
         controlsManager.CheckShoot(Shoot);
-        controlsManager.CheckStopShooting();
         if (controlsManager.IsShotMissile())
         {
             ShootMissile();
@@ -96,8 +95,17 @@ public class PlayerShip : AliveEntity, IFriend
 
     protected override void Move()
     {
-        int direction = controlsManager.DetermineDirection();
-        physics.Move(new Vector2(direction, 0));
+        if (controlsManager.IsKinectEnabled)
+        {
+            Vector3 position = transform.position;
+            position.x = controlsManager.DetermineXPositionByKinect();
+            transform.position = position;
+        }
+        else
+        {
+            int direction = controlsManager.DetermineDirectionByKeyboard();
+            physics.Move(new Vector2(direction, 0));
+        }        
     }
 
     protected override void SetBulletStatus(Bullet bullet)
