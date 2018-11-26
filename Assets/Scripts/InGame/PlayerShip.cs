@@ -21,7 +21,7 @@ public class PlayerShip : AliveEntity, IFriend
     //Properties
     //
 
-    protected override GameObject BulletPrefab
+    public override GameObject BulletPrefab
     {
         get
         {
@@ -50,6 +50,14 @@ public class PlayerShip : AliveEntity, IFriend
                 //create explosion
                 Instantiate(explosion, transform.position, Quaternion.identity);
             }
+        }
+    }
+
+    protected override BulletPool DesiredBulletPool
+    {
+        get
+        {
+            return BulletPool.PlayerBulletPool;
         }
     }
 
@@ -87,7 +95,6 @@ public class PlayerShip : AliveEntity, IFriend
     {
         Move();
         controlsManager.CheckShoot(Shoot);
-        controlsManager.CheckStopShooting();
         if (controlsManager.IsShotMissile())
         {
             ShootMissile();

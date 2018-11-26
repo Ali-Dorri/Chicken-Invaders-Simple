@@ -81,11 +81,19 @@ public class Chicken : AliveEntity, IEnemy
         }
     }
 
-    protected override GameObject BulletPrefab
+    public override GameObject BulletPrefab
     {
         get
         {
             return chickenEggPrefab;
+        }
+    }
+
+    protected override BulletPool DesiredBulletPool
+    {
+        get
+        {
+            return BulletPool.ChickenBulletPool;
         }
     }
 

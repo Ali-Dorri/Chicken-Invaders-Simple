@@ -21,6 +21,8 @@ GameObject:
   - component: {fileID: 4476578895074992}
   - component: {fileID: 20043353499358378}
   - component: {fileID: 81226350742778116}
+  - component: {fileID: 124926577265376326}
+  - component: {fileID: 114191191505085254}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -58,7 +60,7 @@ Camera:
     width: 1
     height: 1
   near clip plane: 0.3
-  far clip plane: 1000
+  far clip plane: 100
   field of view: 60
   orthographic: 1
   orthographic size: 5
@@ -79,6 +81,27 @@ Camera:
   m_StereoSeparation: 0.022
 --- !u!81 &81226350742778116
 AudioListener:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1180790526681398}
+  m_Enabled: 1
+--- !u!114 &114191191505085254
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1180790526681398}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1c6305a2794beef49a89053b0d9bccf5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  trackedRightHand: 11
+  trackedLeftHand: 7
+  trackedHead: 3
+--- !u!124 &124926577265376326
+Behaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
