@@ -130,11 +130,27 @@ public class Bullet : MonoBehaviour, IPausable
 
         if (crasher.GetComponent(crashableType))
         {
-            Destroy(gameObject);
+            //Destroy(gameObject);
+            if(crashableType == typeof(IFriend))
+            {
+                BulletPool.ChickenBulletPool.Destroy(this);
+            }
+            else
+            {
+                BulletPool.PlayerBulletPool.Destroy(this);
+            }
         }
         else if (crasher.tag == "Shredder")
         {
-            Destroy(gameObject);
+            //Destroy(gameObject);
+            if (crashableType == typeof(IFriend))
+            {
+                BulletPool.ChickenBulletPool.Destroy(this);
+            }
+            else
+            {
+                BulletPool.PlayerBulletPool.Destroy(this);
+            }
         }
     }
 

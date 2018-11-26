@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class KinectPositionFinder : MonoBehaviour
+public class KinectPositionFinder : MonoBehaviour, IPausable
 {
     //
     //Fields
@@ -15,6 +15,7 @@ public class KinectPositionFinder : MonoBehaviour
     Vector3 rightHandPos;
     Vector3 leftHandPos;
     Vector3 headPos;
+    ControlsManager controlsManager;
 
     /////////////////////////////////////////////////////////////////////////////
 
@@ -46,6 +47,32 @@ public class KinectPositionFinder : MonoBehaviour
         }
     }
 
+    public bool IsEnabled
+    {
+        get
+        {
+            return controlsManager.IsKinectEnabled;
+        }
+        set
+        {
+            controlsManager.IsKinectEnabled = value;
+            enabled = value;
+
+            //set positions according to the current situation
+            if (value)
+            {
+                Transform player = FindObjectOfType<PlayerShip>().transform;
+
+                rightHandPos.x = player.position.x;
+                rightHandPos.y = player.position.y;
+
+                // let the left hand be under the head not to let the player ship shoot
+                leftHandPos.y = 0;
+                headPos.y = 1;
+            }
+        }
+    }
+
     /////////////////////////////////////////////////////////////////////////////
 
     //
@@ -53,8 +80,9 @@ public class KinectPositionFinder : MonoBehaviour
     //
 
     void Start()
-    {        
+    {
         //distanceToCamera = (OverlayObject.transform.position - Camera.main.transform.position).magnitude;
+        controlsManager = FindObjectOfType<ControlsManager>();
     }
 
     /////////////////////////////////////////////////////////////////////////////
@@ -105,5 +133,10 @@ public class KinectPositionFinder : MonoBehaviour
                 positionInWorldSpace = Camera.main.ViewportToWorldPoint(new Vector3(scaleX, scaleY, 0));           
             }
         }
+    }
+
+    public void PauseOrResume(bool isPaused)
+    {
+        enabled = !isPaused;
     }
 }

@@ -21,7 +21,7 @@ public class PlayerShip : AliveEntity, IFriend
     //Properties
     //
 
-    protected override GameObject BulletPrefab
+    public override GameObject BulletPrefab
     {
         get
         {
@@ -50,6 +50,14 @@ public class PlayerShip : AliveEntity, IFriend
                 //create explosion
                 Instantiate(explosion, transform.position, Quaternion.identity);
             }
+        }
+    }
+
+    protected override BulletPool DesiredBulletPool
+    {
+        get
+        {
+            return BulletPool.PlayerBulletPool;
         }
     }
 
@@ -95,17 +103,8 @@ public class PlayerShip : AliveEntity, IFriend
 
     protected override void Move()
     {
-        if (controlsManager.IsKinectEnabled)
-        {
-            Vector3 position = transform.position;
-            position.x = controlsManager.DetermineXPositionByKinect();
-            transform.position = position;
-        }
-        else
-        {
-            int direction = controlsManager.DetermineDirectionByKeyboard();
-            physics.Move(new Vector2(direction, 0));
-        }        
+        int direction = controlsManager.DetermineDirection();
+        physics.Move(new Vector2(direction, 0));
     }
 
     protected override void SetBulletStatus(Bullet bullet)

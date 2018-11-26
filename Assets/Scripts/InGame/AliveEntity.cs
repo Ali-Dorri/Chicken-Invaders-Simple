@@ -53,7 +53,7 @@ public abstract class AliveEntity : MonoBehaviour, IPausable
         }
     }
 
-    protected abstract GameObject BulletPrefab { get; }
+    public abstract GameObject BulletPrefab { get; }
 
     protected Vector2 ShootPosition
     {
@@ -66,6 +66,34 @@ public abstract class AliveEntity : MonoBehaviour, IPausable
             shootDeltaPosition = value;
         }
     }
+
+    public static GameObject ChickenEggPrefab
+    {
+        get
+        {
+            if(chickenEggPrefab == null)
+            {
+                chickenEggPrefab = Resources.Load<GameObject>("Prefabs/Chicken Egg");
+            }
+
+            return chickenEggPrefab;
+        }
+    }
+
+    public static GameObject PlayerBulletPrefab
+    {
+        get
+        {
+            if (playerBulletPrefab == null)
+            {
+                playerBulletPrefab = Resources.Load<GameObject>("Prefabs/Player Bullet");
+            }
+
+            return playerBulletPrefab;
+        }
+    }
+
+    protected abstract BulletPool DesiredBulletPool { get; }
 
     /////////////////////////////////////////////////////////////////////////////
 
@@ -110,9 +138,10 @@ public abstract class AliveEntity : MonoBehaviour, IPausable
 
     public void Shoot()
     {
-        GameObject bulletGameObject = Instantiate<GameObject>(BulletPrefab, transform.position + shootDeltaPosition,
-                                                             Quaternion.identity);
-        Bullet bullet = bulletGameObject.GetComponent<Bullet>();
+        //GameObject bulletGameObject = Instantiate<GameObject>(BulletPrefab, transform.position + shootDeltaPosition,
+        //                                                     Quaternion.identity);
+        //Bullet bullet = bulletGameObject.GetComponent<Bullet>();
+        Bullet bullet = DesiredBulletPool.Create(transform.position + shootDeltaPosition);
         bullet.Speed = bulletSpeed;
         SetBulletStatus(bullet);
 

@@ -22,6 +22,8 @@ public class ControlsManager : MonoBehaviour, IPausable
     //kinect variables
     [SerializeField] bool isUsingKinect = false;
     KinectPositionFinder kinectPositionFinder;
+    float previousXPos;
+    int currentXDirection; 
 
     /////////////////////////////////////////////////////////////////////////////
 
@@ -45,12 +47,16 @@ public class ControlsManager : MonoBehaviour, IPausable
 
                 if (isUsingKinect)
                 {
-                    //disable keyboard determine direction effects
+                    PlayerShip playerShip = FindObjectOfType<PlayerShip>();
+
+                    //disable keyboard effects
                     isLeftPressed = false;
                     isRightPressed = false;
+                    playerShip.GetComponent<Rigidbody2D>().velocity = new Vector2(0, 0);
 
-                    //disable playership moving
-                    FindObjectOfType<PlayerShip>().GetComponent<Rigidbody2D>().velocity = new Vector2(0, 0);
+                    //reset kinect status
+                    previousXPos = playerShip.transform.position.x;
+                    currentXDirection = 0;
                 }
             }
         }
@@ -73,7 +79,19 @@ public class ControlsManager : MonoBehaviour, IPausable
     //Methods
     //
 
-    public int DetermineDirectionByKeyboard()
+    public int DetermineDirection()
+    {
+        if (isUsingKinect)
+        {
+            return DetermineDirectionByKinect();
+        }
+        else
+        {
+            return DetermineDirectionByKeyboard();
+        }
+    }
+
+    int DetermineDirectionByKeyboard()
     {
         if (Input.GetKey(leftKey))
         {
@@ -128,9 +146,26 @@ public class ControlsManager : MonoBehaviour, IPausable
         return direction;
     }
 
-    public float DetermineXPositionByKinect()
+    int DetermineDirectionByKinect()
     {
-        return kinectPositionFinder.RightHandPos.x;
+        if(kinectPositionFinder.RightHandPos.x != previousXPos)
+        {
+            float direction = kinectPositionFinder.RightHandPos.x - previousXPos;
+            if(direction > 0)
+            {
+                currentXDirection = 1;
+            }
+            else if(direction < 0)
+            {
+                currentXDirection = -1;
+            }
+            else
+            {
+                currentXDirection = 0;
+            }
+        }
+
+        return currentXDirection;
     }
 
     public void CheckShoot(UnityAction shoot)
@@ -153,7 +188,7 @@ public class ControlsManager : MonoBehaviour, IPausable
         //if Kinect enabled
         else
         {
-            if(kinectPositionFinder.LeftHandPos.y >= kinectPositionFinder.HeadPos.y)
+            if(kinectPositionFinder.LeftHandPos.y > kinectPositionFinder.HeadPos.y)
             {
                 if (canShoot)
                 {
