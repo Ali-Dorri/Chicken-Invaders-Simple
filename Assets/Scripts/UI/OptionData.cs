@@ -8,7 +8,7 @@ public struct OptionData
     //Concept Definition
     //
 
-    public enum Difficulty { Easy, Normal, Hard }
+    public enum Difficulty { Easy = 1, Normal, Hard }
     public struct Size
     {
         public int x;
@@ -27,12 +27,12 @@ public struct OptionData
     //Fields
     //
 
-    float masterVolume;
+    public float masterVolume;
     Difficulty difficulty;  //multiplication:    easy = 1, normal = 2, hard = 3
     Size armySize;
     int health;
-    bool endless;
-    int maxScore;
+    public bool endless;
+    public int maxScore;
     int scorePerKill;
 
     //defaults
@@ -51,6 +51,85 @@ public struct OptionData
     /////////////////////////////////////////////////////////////////////////////
 
     //
+    //Properties
+    //
+
+    public Difficulty GameDifficulty
+    {
+        get
+        {
+            return difficulty;
+        }
+        set
+        {
+            scorePerKill = scorePerKill / (int)difficulty * (int)value;
+            difficulty = value;
+        }
+    }
+
+    public Size ArmySize
+    {
+        get
+        {
+            return armySize;
+        }
+        set
+        {
+            scorePerKill += (value.x * value.y - (armySize.x * armySize.y)) * (int)difficulty;
+            armySize = value;
+        }
+    }
+
+    public int ArmyWidth
+    {
+        get
+        {
+            return armySize.x;
+        }
+        set
+        {
+            scorePerKill += (armySize.y * (value - armySize.x)) * (int)difficulty;
+            armySize.x = value;
+        }
+    }
+
+    public int ArmyHeight
+    {
+        get
+        {
+            return armySize.y;
+        }
+        set
+        {
+            scorePerKill += (armySize.x * (value - armySize.y)) * (int)difficulty;
+            armySize.y = value;
+        }
+    }
+
+    public int Health
+    {
+        get
+        {
+            return health;
+        }
+        set
+        {
+            scorePerKill += (health - value) * (int)difficulty;
+            health = value;
+        }
+    }
+
+    public int ScorePerKill
+    {
+        get
+        {
+            return scorePerKill;
+        }
+    }
+
+    /////////////////////////////////////////////////////////////////////////////
+
+    //
     //Initializers
     //
 
@@ -65,7 +144,7 @@ public struct OptionData
         health = DEFAULT_HEALTH;
         endless = DEFAULT_ENDLESS;
         maxScore = DEFAULT_MAX_SCORE;
-        scorePerKill = (-health + (armySize.x * armySize.y)) * ((int)difficulty + 1);
+        scorePerKill = (-health + (armySize.x * armySize.y)) * (int)difficulty;
     }
 
     public OptionData(float masterVolume, Difficulty difficulty, Size armySize, int health, 
@@ -89,7 +168,7 @@ public struct OptionData
         this.health = health;
         this.endless = isEndless;
         this.maxScore = maxScore;
-        scorePerKill = (-health + (armySize.x * armySize.y)) * ((int)difficulty + 1);
+        scorePerKill = (-health + (armySize.x * armySize.y)) * (int)difficulty;
     }
 
     /// <summary>
@@ -103,7 +182,7 @@ public struct OptionData
         health = DEFAULT_HEALTH;
         endless = DEFAULT_ENDLESS;
         maxScore = DEFAULT_MAX_SCORE;
-        scorePerKill = (-health + (armySize.x * armySize.y)) * ((int)difficulty + 1);
+        scorePerKill = (-health + (armySize.x * armySize.y)) * (int)difficulty;
     }
 
     public void Initialize(float masterVolume, Difficulty difficulty, Size armySize, int health,
@@ -127,7 +206,7 @@ public struct OptionData
         this.health = health;
         this.endless = isEndless;
         this.maxScore = maxScore;
-        scorePerKill = (-health + (armySize.x * armySize.y)) * ((int)difficulty + 1);
+        scorePerKill = (-health + (armySize.x * armySize.y)) * (int)difficulty;
     }
 
     /////////////////////////////////////////////////////////////////////////////
@@ -138,22 +217,22 @@ public struct OptionData
 
     public static int ScorePerKillByNewDifficulty(int scorePerKill, Difficulty prevDifficulty, Difficulty newDifficulty)
     {
-        return scorePerKill /((int)prevDifficulty + 1) * ((int)newDifficulty + 1);
+        return scorePerKill /(int)prevDifficulty * (int)newDifficulty;
     }
 
-    public static int ScorePerKillByNewArmyWidth(int scorePerKill, Size prevSize, int newWidth)
+    public static int ScorePerKillByNewArmyWidth(int scorePerKill, Size prevSize, int newWidth, Difficulty difficulty)
     {
-        return scorePerKill + (prevSize.y * (newWidth - prevSize.x));
+        return scorePerKill + (prevSize.y * (newWidth - prevSize.x) * (int)difficulty);
     }
 
-    public static int ScorePerKillByNewArmyHeight(int scorePerKill, Size prevSize, int newHeight)
+    public static int ScorePerKillByNewArmyHeight(int scorePerKill, Size prevSize, int newHeight, Difficulty difficulty)
     {
-        return scorePerKill + (prevSize.x * (newHeight - prevSize.y));
+        return scorePerKill + (prevSize.x * (newHeight - prevSize.y) * (int)difficulty);
     }
 
-    public static int ScorePerKillByNewHealth(int scoreperKill, int prevHealth, int newHealth)
+    public static int ScorePerKillByNewHealth(int scoreperKill, int prevHealth, int newHealth, Difficulty difficulty)
     {
-        return scoreperKill + prevHealth - newHealth;
+        return scoreperKill + (prevHealth - newHealth) * (int)difficulty;
     }
 
     public void Save()
@@ -209,6 +288,7 @@ public struct OptionData
                 health = reader.ReadInt32();
                 endless = reader.ReadBoolean();
                 maxScore = reader.ReadInt32();
+                scorePerKill = (-health + (armySize.x * armySize.y)) * (int)difficulty;
             }
             finally
             {

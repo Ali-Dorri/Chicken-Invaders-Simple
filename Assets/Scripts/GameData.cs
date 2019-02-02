@@ -42,6 +42,14 @@ public class GameData : MonoBehaviour
         }
     }
 
+    public OptionData GameOptionData
+    {
+        get
+        {
+            return optionData;
+        }
+    }
+
     /////////////////////////////////////////////////////////////////////////////
 
     //
