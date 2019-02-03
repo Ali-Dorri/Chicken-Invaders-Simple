@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -43,6 +43,18 @@ public class BackgroundMusicPlayer : MonoBehaviour
             }
 
             return singleton;
+        }
+    }
+
+    public float Volume
+    {
+        get
+        {
+            return audioSource.volume;
+        }
+        set
+        {
+            audioSource.volume = value;
         }
     }
 

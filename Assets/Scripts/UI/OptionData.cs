@@ -1,5 +1,4 @@
 using UnityEngine;
-
 using System.IO;
 
 public struct OptionData
@@ -214,26 +213,6 @@ public struct OptionData
     //
     //Methods
     //
-
-    public static int ScorePerKillByNewDifficulty(int scorePerKill, Difficulty prevDifficulty, Difficulty newDifficulty)
-    {
-        return scorePerKill /(int)prevDifficulty * (int)newDifficulty;
-    }
-
-    public static int ScorePerKillByNewArmyWidth(int scorePerKill, Size prevSize, int newWidth, Difficulty difficulty)
-    {
-        return scorePerKill + (prevSize.y * (newWidth - prevSize.x) * (int)difficulty);
-    }
-
-    public static int ScorePerKillByNewArmyHeight(int scorePerKill, Size prevSize, int newHeight, Difficulty difficulty)
-    {
-        return scorePerKill + (prevSize.x * (newHeight - prevSize.y) * (int)difficulty);
-    }
-
-    public static int ScorePerKillByNewHealth(int scoreperKill, int prevHealth, int newHealth, Difficulty difficulty)
-    {
-        return scoreperKill + (prevHealth - newHealth) * (int)difficulty;
-    }
 
     public void Save()
     {

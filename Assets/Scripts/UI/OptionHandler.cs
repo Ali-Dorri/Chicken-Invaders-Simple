@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -31,6 +29,7 @@ public class OptionHandler : MonoBehaviour
     Color defaultDifficultyColor;
     Color defaultEndlessBtnColor;
     GameData gameData;
+    BackgroundMusicPlayer backgroundMusic;
 
     //data bounadries
     [SerializeField] int maxArmyWidth = MAX_ARMY_WIDTH;
@@ -63,13 +62,14 @@ public class OptionHandler : MonoBehaviour
         //fill data
         gameData = FindObjectOfType<GameData>();
         tempOptionData = gameData.GameOptionData;
+        backgroundMusic = FindObjectOfType<BackgroundMusicPlayer>();
 
         //default color preinitialization
         defaultDifficultyColor = easy.colors.normalColor;
         defaultEndlessBtnColor = endless.colors.normalColor;
 
         //fill data in UI components
-        masterVolume.value = 1;
+        masterVolume.value = gameData.GameOptionData.masterVolume;
         if (tempOptionData.GameDifficulty == OptionData.Difficulty.Easy)
         {
             OnClickEasy();
@@ -89,7 +89,8 @@ public class OptionHandler : MonoBehaviour
         scorePerKill.text = tempOptionData.ScorePerKill.ToString();
         SetEndless(tempOptionData.endless);
 
-        //sign to option UI events
+        //sign in to option UI events
+        masterVolume.onValueChanged.AddListener(OnMasterVolumeChanged);
         easy.onClick.AddListener(OnClickEasy);
         normal.onClick.AddListener(OnClickNormal);
         hard.onClick.AddListener(OnClickHard);
@@ -100,6 +101,9 @@ public class OptionHandler : MonoBehaviour
         maxScore.onEndEdit.AddListener(OnEndEditMaxScore);
         defaultBtn.onClick.AddListener(OnClickDefault);
         applyBtn.onClick.AddListener(OnClickApply);
+        //sign in to back button click event
+        Button back = GameObject.Find("Back").transform.GetChild(0).GetComponent<Button>();
+        back.onClick.AddListener(OnBackClick);
     }
 
     /////////////////////////////////////////////////////////////////////////////
@@ -107,6 +111,12 @@ public class OptionHandler : MonoBehaviour
     //
     //Methods
     //
+
+    void OnMasterVolumeChanged(float value)
+    {
+        backgroundMusic.Volume = value;
+        tempOptionData.masterVolume = value;
+    }
 
     void OnClickEasy()
     {
@@ -360,5 +370,12 @@ public class OptionHandler : MonoBehaviour
     void OnClickApply()
     {
         gameData.SaveOption(tempOptionData);
+    }
+
+    void OnBackClick()
+    {
+        //set background music to what option data has
+        //(it should be preserved only if we apply the changes)
+        backgroundMusic.Volume = gameData.GameOptionData.masterVolume;
     }
 }
