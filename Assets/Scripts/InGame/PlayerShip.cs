@@ -82,7 +82,8 @@ public class PlayerShip : AliveEntity, IFriend
         if(bulletSpeed <= 0)
         {
             bulletSpeed = DEFAULT_PLAYER_BULLET_SPEED;
-        }       
+        }
+        health = GameData.Singleton.GameOptionData.Health;
     }
 
     /////////////////////////////////////////////////////////////////////////////

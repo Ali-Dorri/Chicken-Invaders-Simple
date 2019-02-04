@@ -124,6 +124,10 @@ public struct OptionData
         {
             return scorePerKill;
         }
+        set
+        {
+            scorePerKill = value;
+        }
     }
 
     /////////////////////////////////////////////////////////////////////////////

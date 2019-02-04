@@ -9,7 +9,7 @@ public class GameData : MonoBehaviour
     //
 
     OptionData optionData;
-    int lastScore;
+    public int lastScore;
 
     //static
     static GameData singleton = null;
@@ -49,6 +49,10 @@ public class GameData : MonoBehaviour
         get
         {
             return optionData;
+        }
+        set
+        {
+            optionData = value;
         }
     }
 

@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -36,6 +36,7 @@ public class ChickenArmyController : MonoBehaviour, IPausable
 
     //static
     static ChickenArmyController singleton = null;
+    static GameObject prefab;
     static int wholeChickenNumber = 0;
     const int DEFAULT_COLUMNS_NUMER = 10;
     const int DEFAULT_ROWS_NUMBER = 5;
@@ -123,7 +124,7 @@ public class ChickenArmyController : MonoBehaviour, IPausable
                 singleton = FindObjectOfType<ChickenArmyController>();
                 if(singleton == null)
                 {
-                    GameObject prefab = Resources.Load<GameObject>("Prefabs/Chicken Army");
+                    prefab = Resources.Load<GameObject>("Prefabs/Chicken Army");
                     prefab = Instantiate(prefab, Vector3.zero, Quaternion.identity);
                     singleton = prefab.GetComponent<ChickenArmyController>();
                 } 
@@ -144,12 +145,31 @@ public class ChickenArmyController : MonoBehaviour, IPausable
             if(value <= 0)
             {
                 wholeChickenNumber = 0;
-                WinLoseExecuter.Singleton.Win();
-                BackgroundMusicPlayer.Singleton.PlayWinTrack();
+
+                if (GameData.Singleton.GameOptionData.endless)
+                {
+                    singleton.CreateNewChickenArmy();
+                }
+                else if (GameData.Singleton.lastScore >= GameData.Singleton.GameOptionData.maxScore)
+                {
+                    WinLoseExecuter.Singleton.Win();
+                    BackgroundMusicPlayer.Singleton.PlayWinTrack();
+                }
+                else
+                {
+                    singleton.CreateNewChickenArmy();
+                }
             }
             else
             {
                 wholeChickenNumber = value;
+
+                if (!GameData.Singleton.GameOptionData.endless &&
+                    GameData.Singleton.lastScore >= GameData.Singleton.GameOptionData.maxScore)
+                {
+                    WinLoseExecuter.Singleton.Win();
+                    BackgroundMusicPlayer.Singleton.PlayWinTrack();
+                }
             }
         }
     }
@@ -171,6 +191,8 @@ public class ChickenArmyController : MonoBehaviour, IPausable
     private void Awake()
     {
         //set army array
+        armyColumns = GameData.Singleton.GameOptionData.ArmyWidth;
+        armyRows= GameData.Singleton.GameOptionData.ArmyHeight;
         if (armyColumns <= 0)
         {
             armyColumns = DEFAULT_COLUMNS_NUMER;
@@ -210,6 +232,7 @@ public class ChickenArmyController : MonoBehaviour, IPausable
         if (singleton == null)
         {
             singleton = this;
+            prefab = gameObject;
         }
         else
         {
@@ -440,5 +463,22 @@ public class ChickenArmyController : MonoBehaviour, IPausable
     protected bool IsColumnExist(int column)
     {
         return isColumnsExist[column - 1];
+    }
+
+    /// <summary>
+    /// For now just simple destroy and instantiate.
+    /// </summary>
+    void CreateNewChickenArmy()
+    {
+        prefab = Instantiate<GameObject>(prefab, Vector3.zero, Quaternion.identity);
+        singleton = prefab.GetComponent<ChickenArmyController>();
+        prefab.name = name;
+
+        //because xGap and yGap are modified depending on thier previous values we need to change them as they will be
+        //again with their first values (we subtract the addition in modification)
+        singleton.xGap -= chickenSize.x;
+        singleton.yGap -= chickenSize.y;
+
+        Destroy(gameObject);
     }
 }

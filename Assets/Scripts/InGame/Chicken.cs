@@ -4,9 +4,6 @@ using UnityEngine;
 
 public class Chicken : AliveEntity, IEnemy
 {
-    //For Later : remove random functions (ChickenArmyAIController will control it)
-
-
     //
     //Fields
     //
@@ -20,11 +17,11 @@ public class Chicken : AliveEntity, IEnemy
     bool isSetInPosition = false;
 
     //static
-    //static System.Random random = new System.Random();
-    //const float MAX_SHOOT_TIME_GAP = 8;
-    //const float MIN_SHOOT_TIME_GAP = 6;
     const float DEFAULT_SPEED = 4;
     const float KILLED_SOUND_VOLUME = 1;
+    const float EASY_BULLET_SPEED = 2.5f;
+    const float NORMAL_BULLET_SPEED = 3;
+    const float HARD_BULLET_SPEED = 5;
 
     /////////////////////////////////////////////////////////////////////////////
 
@@ -72,10 +69,12 @@ public class Chicken : AliveEntity, IEnemy
             {
                 if (health == 0)
                 {
+                    //show score on UI
+                    InformationIndicator.Singleton.IncreaseScore();
+
+                    //logic
                     ChickenArmyController.Singleton.RemoveChicken(columnIndex, rowIndex);
-                    ChickenArmyController.WholeChickenNumber--;
-                    //show kills on UI
-                    InformationIndicator.Singleton.AddKillsNumber();
+                    ChickenArmyController.WholeChickenNumber--; 
                 }
             }
         }
@@ -114,11 +113,23 @@ public class Chicken : AliveEntity, IEnemy
     protected override void Initialize()
     {
         transform = base.transform;
-        if(bulletSpeed <= 0)
+
+        //set bullet speed
+        OptionData.Difficulty difficulty = GameData.Singleton.GameOptionData.GameDifficulty;
+        if(difficulty == OptionData.Difficulty.Easy)
         {
-            bulletSpeed = DEFAULT_ENEMY_BULLET_SPEED;
+            bulletSpeed = EASY_BULLET_SPEED;
         }
-        //shootTimeGap = GetRandomTime();
+        else if(difficulty == OptionData.Difficulty.Normal)
+        {
+            bulletSpeed = NORMAL_BULLET_SPEED;
+        }
+        else
+        {
+            bulletSpeed = HARD_BULLET_SPEED;
+        }
+
+        //set speed
         if(speed <= 0)
         {
             speed = DEFAULT_SPEED;
@@ -137,26 +148,7 @@ public class Chicken : AliveEntity, IEnemy
     void Update ()
     {
         Move();
-        //ShootRandomly();
     }
-
-    //public virtual void ShootRandomly()
-    //{
-    //    shootTimeCounter += Time.deltaTime;
-
-    //    if (shootTimeCounter >= shootTimeGap)
-    //    {
-    //        Shoot();
-    //        shootTimeCounter = 0;
-    //        shootTimeGap = GetRandomTime();
-    //    }
-    //}
-
-    //float GetRandomTime()
-    //{
-    //    int rnd = random.Next(0, 10);
-    //    return MIN_SHOOT_TIME_GAP + (rnd * (MAX_SHOOT_TIME_GAP - MIN_SHOOT_TIME_GAP) / 10);
-    //}
 
     protected override void Move()
     {

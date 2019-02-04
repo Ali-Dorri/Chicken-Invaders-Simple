@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -9,9 +9,8 @@ public class InformationIndicator : MonoBehaviour
     //Fields
     //
 
-    Text killsNumber;
+    Text scoreText;
     Text health;
-    int numberOfKills = 0;
 
     //statics
     static InformationIndicator singleton = null;
@@ -41,6 +40,32 @@ public class InformationIndicator : MonoBehaviour
             }
 
             return singleton;
+        }
+    }
+
+    int Score
+    {
+        get
+        {
+            return GameData.Singleton.lastScore;
+        }
+        set
+        {
+            GameData.Singleton.lastScore = value;
+        }
+    }
+
+    int ScorePerKill
+    {
+        get
+        {
+            return GameData.Singleton.GameOptionData.ScorePerKill;
+        }
+        set
+        {
+            OptionData data = GameData.Singleton.GameOptionData;
+            data.ScorePerKill = value;
+            GameData.Singleton.GameOptionData = data;
         }
     }
 
@@ -79,7 +104,7 @@ public class InformationIndicator : MonoBehaviour
         {
             if(information.name == "Kills Number")
             {
-                killsNumber = information.GetComponent<Text>();
+                scoreText = information.GetComponent<Text>();
             }
             else if(information.name == "Health")
             {
@@ -90,8 +115,9 @@ public class InformationIndicator : MonoBehaviour
 
     void InitializeInformation()
     {
-        killsNumber.text = numberOfKills.ToString();
-        health.text = Resources.Load<GameObject>("Prefabs/Player").GetComponent<PlayerShip>().Health.ToString();
+        Score = 0;
+        scoreText.text = "0";
+        health.text = GameData.Singleton.GameOptionData.Health.ToString();       
     }
 
     /////////////////////////////////////////////////////////////////////////////
@@ -100,9 +126,10 @@ public class InformationIndicator : MonoBehaviour
     //Methods
     //
 
-    public void AddKillsNumber()
+    public void IncreaseScore()
     {
-        killsNumber.text = (++numberOfKills).ToString();
+        Score += ScorePerKill;
+        scoreText.text = Score.ToString();
     }
 
     public void SetHealth(float number)

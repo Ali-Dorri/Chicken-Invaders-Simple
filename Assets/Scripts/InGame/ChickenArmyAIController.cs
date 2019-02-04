@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -13,14 +13,20 @@ public class ChickenArmyAIController : ChickenArmyController
     List<DataWithIndex<List<DataWithIndex<Chicken>>>> aliveChickens;
 
     //single chicken shooting variables
+    float minShootTimeGap = NORMAL_MIN_SHOOT_TIME_GAP;
+    float maxShootTimeGap = NORMAL_MAX_SHOOT_TIME_GAP;
     float shootTimeGap = 0;
     float shootTimeCounter = 0;
     Chicken randomChicken;
 
     //static
     static System.Random random = new System.Random();
-    const float MAX_SHOOT_TIME_GAP = 3;
-    const float MIN_SHOOT_TIME_GAP = 1;
+    const float EASY_MAX_SHOOT_TIME_GAP = 7;
+    const float EASY_MIN_SHOOT_TIME_GAP = 4;
+    const float NORMAL_MAX_SHOOT_TIME_GAP = 4;
+    const float NORMAL_MIN_SHOOT_TIME_GAP = 2;
+    const float HARD_MAX_SHOOT_TIME_GAP = 1;
+    const float HARD_MIN_SHOOT_TIME_GAP = 0.5f;
     //(For Later) will be used when creating stack lists for controlling creating and destroying bullets
     const int MAX_EGGS_NUMBER = 10;
 
@@ -43,6 +49,24 @@ public class ChickenArmyAIController : ChickenArmyController
 
         //playerTransform = FindObjectOfType<PlayerShip>().transform;
         aliveChickens = new List<DataWithIndex<List<DataWithIndex<Chicken>>>>(ArmyColumnsNumber);
+
+        //set min and max shoot time gaps
+        OptionData.Difficulty difficulty = GameData.Singleton.GameOptionData.GameDifficulty;
+        if(difficulty == OptionData.Difficulty.Easy)
+        {
+            minShootTimeGap = EASY_MIN_SHOOT_TIME_GAP;
+            maxShootTimeGap = EASY_MAX_SHOOT_TIME_GAP;
+        }
+        else if(difficulty == OptionData.Difficulty.Normal)
+        {
+            minShootTimeGap = NORMAL_MIN_SHOOT_TIME_GAP;
+            maxShootTimeGap = NORMAL_MAX_SHOOT_TIME_GAP;
+        }
+        else
+        {
+            minShootTimeGap = HARD_MIN_SHOOT_TIME_GAP;
+            maxShootTimeGap = HARD_MAX_SHOOT_TIME_GAP;
+        }
 
         //single chicken shooting initialization
         shootTimeGap = GetRandomTime();
@@ -105,10 +129,10 @@ public class ChickenArmyAIController : ChickenArmyController
                         //if more than one chicken should shoot, other allowed chickens should shoot later by random time
     }
 
-    static float GetRandomTime()
+    float GetRandomTime()
     {
         int rnd = random.Next(0, 10);
-        return MIN_SHOOT_TIME_GAP + (rnd * (MAX_SHOOT_TIME_GAP - MIN_SHOOT_TIME_GAP) / 10);
+        return minShootTimeGap + (rnd * (maxShootTimeGap - minShootTimeGap) / 10);
     }
 
     public override bool AddChicken(Chicken enemy, int columnIndex, int rowIndex)

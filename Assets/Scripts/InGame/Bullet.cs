@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
@@ -19,7 +19,7 @@ public class Bullet : MonoBehaviour, IPausable
     //
 
     [SerializeField] float damage = 5;
-    [SerializeField] float speed = 3;
+    [SerializeField] float speed = DEFAULT_SPEED;
     Type crashableType;
     /// <summary>
     /// The direction the bullet will go in y axis when shooted.
@@ -28,7 +28,7 @@ public class Bullet : MonoBehaviour, IPausable
     Group group;
 
     //static
-    const float DEFAULT_SPEED = 5;
+    const float DEFAULT_SPEED = 3;
 
     /////////////////////////////////////////////////////////////////////////////
 
@@ -104,12 +104,6 @@ public class Bullet : MonoBehaviour, IPausable
             }
         }
     }
-
-    /////////////////////////////////////////////////////////////////////////////
-
-    //
-    //Initializers
-    //
 
     /////////////////////////////////////////////////////////////////////////////
 

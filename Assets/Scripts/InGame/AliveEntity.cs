@@ -15,7 +15,6 @@ public abstract class AliveEntity : MonoBehaviour, IPausable
 
     //statics
     protected const float DEFAULT_PLAYER_BULLET_SPEED = 7;
-    protected const float DEFAULT_ENEMY_BULLET_SPEED = 5;
     protected static GameObject chickenEggPrefab;
     protected static GameObject playerBulletPrefab;
 
