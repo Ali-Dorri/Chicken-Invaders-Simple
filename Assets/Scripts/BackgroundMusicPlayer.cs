@@ -96,6 +96,7 @@ public class BackgroundMusicPlayer : MonoBehaviour
     {
         DontDestroyOnLoad(gameObject);
         audioSource = GetComponent<AudioSource>();
+        audioSource.volume = GameData.Singleton.GameOptionData.masterVolume;
         if (audioSource.clip == null)
         {
             SetMusicClipAccordingToActiveScene();

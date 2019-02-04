@@ -36,6 +36,8 @@ public class GameData : MonoBehaviour
                     prefab = Instantiate(prefab, Vector3.zero, Quaternion.identity);
                     singleton = prefab.GetComponent<GameData>();
                 }
+
+                singleton.Initialize();
             }
 
             return singleton;
@@ -60,11 +62,7 @@ public class GameData : MonoBehaviour
     {
         if (singleton != null)
         {
-            if (this == singleton)
-            {
-                Initialize();
-            }
-            else
+            if (this != singleton)
             {
                 Destroy(gameObject);
             }

@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Audio;
@@ -34,18 +34,9 @@ public class TemporarySound : MonoBehaviour
         GameObject tempGameObject = Instantiate(GetPrefab(), Vector3.zero, Quaternion.identity);
         AudioSource audio = tempGameObject.GetComponent<AudioSource>();
         audio.clip = clip;
+        audio.volume = GameData.Singleton.GameOptionData.masterVolume;
         TemporarySound tempSound = tempGameObject.GetComponent<TemporarySound>();
-        tempSound.StartCoroutine(tempSound.PlaySound());
-    }
-
-    public static void CreateSound(AudioClip clip, float volume)
-    {
-        GameObject tempGameObject = Instantiate(GetPrefab(), Vector3.zero, Quaternion.identity);
-        AudioSource audio = tempGameObject.GetComponent<AudioSource>();
-        audio.clip = clip;
-        audio.volume = volume;
-        TemporarySound tempSound = tempGameObject.GetComponent<TemporarySound>();
-        tempSound.StartCoroutine(tempSound.PlaySound());
+        tempSound.StartCoroutine(tempSound.PlaySound(audio));
     }
 
     static GameObject GetPrefab()
@@ -59,16 +50,15 @@ public class TemporarySound : MonoBehaviour
         return prefab;
     }
 
-    IEnumerator PlaySound()
+    IEnumerator PlaySound(AudioSource audio)
     {
-        AudioSource audio = GetComponent<AudioSource>();
         audio.Play();
 
         while (audio.isPlaying)
         {
             yield return null;
         }
-        
+
         Destroy(gameObject);
     }
 

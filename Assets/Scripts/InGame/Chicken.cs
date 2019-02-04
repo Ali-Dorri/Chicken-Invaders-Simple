@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -214,10 +214,5 @@ public class Chicken : AliveEntity, IEnemy
                 StartCoroutine(GetToPosition());
             }   
         }
-    }
-
-    protected override void SetKillSound(EntitySoundHandler soundhandler)
-    {
-        soundhandler.PlayKilled(KILLED_SOUND_VOLUME);
     }
 }

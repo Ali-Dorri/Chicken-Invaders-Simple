@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -29,6 +29,7 @@ public class EntitySoundHandler : MonoBehaviour
     {
         audioSource = GetComponent<AudioSource>();
         audioSource.loop = false;
+        audioSource.volume = GameData.Singleton.GameOptionData.masterVolume;
     }
 
     /////////////////////////////////////////////////////////////////////////////
@@ -50,11 +51,6 @@ public class EntitySoundHandler : MonoBehaviour
     public void PlayKilled()
     {
         TemporarySound.CreateSound(killedSound);
-    }
-
-    public void PlayKilled(float volume)
-    {
-        TemporarySound.CreateSound(killedSound, volume);
     }
 
     void PlayClip(AudioClip clip)
