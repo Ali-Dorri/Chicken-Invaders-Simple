@@ -273,6 +273,10 @@ public struct OptionData
                 maxScore = reader.ReadInt32();
                 scorePerKill = (-health + (armySize.x * armySize.y)) * (int)difficulty;
             }
+            catch   //any exception
+            {
+                Initialize();
+            }
             finally
             {
                 if (stream != null)
