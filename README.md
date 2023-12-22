@@ -1,4 +1,3 @@
 # Chicken-Invaders-Simple
-A simple chicken invaders project.
-It will be added some new features.Like:
-more flexible way of controlling enemies, more weapons, more customizable game, ...
+Shoot evil chickens and avoid their doomed eggs!
+A simple game inspired by the "Chicken Invaders" game. Also, it supports moving the spaceship and shooting with the Kinect.
